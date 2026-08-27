@@ -10,9 +10,9 @@ MVP trains a lightweight, question-conditioned pruner to score the 576 visual pa
 
 Success/failure-aware fusion turns these candidate masks into soft supervision. At inference time, MVP keeps the highest-scoring tokens before LLaVA's multimodal projector.
 
-![MVP supervision pipeline](assets/data_pipeline.png)
+![MVP supervision pipeline](assets/data_pipeline.png?raw=1)
 
-![MVP model architecture](assets/model_architecture.png)
+![MVP model architecture](assets/model_architecture.png?raw=1)
 
 ## Repository status
 

@@ -109,7 +109,7 @@ class MVPPrunerBlock(nn.Module):
         return visual_tokens
 
 
-class MVP_Pruner(nn.Module):
+class MVPPruner(nn.Module):
     def __init__(
         self,
         visual_input_dim: int = 1024,
@@ -213,6 +213,5 @@ class MVP_Pruner(nn.Module):
         )
 
     @classmethod
-    def from_config(cls, config: dict | None = None) -> "MVP_Pruner":
+    def from_config(cls, config: dict | None = None) -> "MVPPruner":
         return cls(**extract_model_config(config))
-

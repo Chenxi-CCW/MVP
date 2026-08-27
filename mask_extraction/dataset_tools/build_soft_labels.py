@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 """
-SSF_label.py
+build_soft_labels.py
 
 训练集 Success-Failure Family-Beta Soft Label 构建：
   - 读取候选方法：
@@ -55,7 +55,7 @@ for _p in [_DATASET_TOOLS, _PROJECT_ROOT]:
     if str(_p) not in sys.path:
         sys.path.insert(0, str(_p))
 
-from mask_extraction.dataset_tools.train_data_side_utils import load_final_samples_json
+from mask_extraction.dataset_tools.utils import load_final_samples_json
 
 
 DEFAULT_MASK_KEYS = [
@@ -989,26 +989,32 @@ def parse_args():
     p = argparse.ArgumentParser(
         description="Build SSF family-beta soft labels from existing train_inference results."
     )
-    p.add_argument("--train_dir", default="./train_data_uid_qwenv2")
+    p.add_argument("--train-dir", "--train_dir", dest="train_dir", default="./train_data_uid_qwenv2")
     p.add_argument(
+        "--samples-json",
         "--samples_json",
+        dest="samples_json",
         default="./train_data_uid_qwenv2/sample_list.json",
         help="sample_list.json 或其他兼容 manifest",
     )
-    p.add_argument("--mask_keys", nargs="+", default=DEFAULT_MASK_KEYS, help="参与融合的 mask key 列表")
-    p.add_argument("--run_prefix", default="train_", help="当未显式提供 inference_keys 时，按 run_prefix + mask_key 推导")
+    p.add_argument("--mask-keys", "--mask_keys", dest="mask_keys", nargs="+", default=DEFAULT_MASK_KEYS, help="参与融合的 mask key 列表")
+    p.add_argument("--run-prefix", "--run_prefix", dest="run_prefix", default="train_", help="当未显式提供 inference_keys 时，按 run_prefix + mask_key 推导")
     p.add_argument(
+        "--inference-keys",
         "--inference_keys",
+        dest="inference_keys",
         nargs="+",
         default=None,
         help="可选：显式指定 train_inference/*.jsonl 的 run_name 列表",
     )
     p.add_argument(
+        "--fusion-key",
         "--fusion_key",
+        dest="fusion_key",
         default=None,
         help="输出 fusion key；默认自动使用 ssf_family_beta_soft_label",
     )
-    p.add_argument("--output_root_name", default="soft_masks")
+    p.add_argument("--output-root-name", "--output_root_name", dest="output_root_name", default="soft_masks")
     p.add_argument("--epsilon", type=float, default=1e-6, help="evidence efficiency 数值稳定项")
     return p.parse_args()
 

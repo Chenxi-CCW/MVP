@@ -1,0 +1,7 @@
+accelerate
+loguru
+numpy
+Pillow
+torch
+tqdm
+transformers

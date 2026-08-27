@@ -28,8 +28,8 @@ from lmms_eval.models.simple.llava import (
 )
 from loguru import logger as eval_logger
 
-from qvts.MVP_Pruner import (
-    MVP_Pruner,
+from mvp.model import (
+    MVPPruner,
     model_config_from_checkpoint as mvp_model_config_from_checkpoint,
 )
 
@@ -79,7 +79,7 @@ def _build_mvp_model_from_checkpoint(ckpt: dict) -> torch.nn.Module:
     )
 
     if block_type == "self_cross_swiglu":
-        return MVP_Pruner.from_config(mvp_model_config_from_checkpoint(ckpt))
+        return MVPPruner.from_config(mvp_model_config_from_checkpoint(ckpt))
     raise ValueError(
         f"Unsupported MVP checkpoint block_type/model_variant for lmms-eval: {block_type}"
     )
@@ -88,7 +88,7 @@ def _build_mvp_model_from_checkpoint(ckpt: dict) -> torch.nn.Module:
 class MVPLlava(Llava):
     def __init__(
         self,
-        pretrained: str = "/root/autodl-tmp/models/llava-v1.5-7b-localclip",
+        pretrained: str = "liuhaotian/llava-v1.5-7b",
         adapter_ckpt: str = "outputs/mvp_pruner/checkpoints/best.pt",
         selection_mode: str = "topk",
         topk: int = 64,
@@ -335,10 +335,10 @@ class MVPLlava(Llava):
 
             use_mvp = len(visuals) == 1
             if len(visuals) > 1 and not self._warned_multi_image and self.rank == 0:
-                eval_logger.warning("MVP_llava currently prunes only single-image samples; multi-image samples fall back to vanilla LLaVA.")
+                eval_logger.warning("mvp_llava currently prunes only single-image samples; multi-image samples fall back to vanilla LLaVA.")
                 self._warned_multi_image = True
             if len(visuals) == 0 and not self._warned_no_visual and self.rank == 0:
-                eval_logger.warning("MVP_llava received samples without visuals; those samples fall back to vanilla LLaVA.")
+                eval_logger.warning("mvp_llava received samples without visuals; those samples fall back to vanilla LLaVA.")
                 self._warned_no_visual = True
 
             if use_mvp:

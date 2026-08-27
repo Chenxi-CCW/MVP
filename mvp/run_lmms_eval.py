@@ -40,7 +40,7 @@ def main() -> None:
     env["PYTHONPATH"] = os.pathsep.join(
         [str(lmms_eval_repo), str(llava_repo), str(root), env.get("PYTHONPATH", "")]
     ).strip(os.pathsep)
-    env["LMMS_EVAL_PLUGINS"] = "qvts_lmms_plugin"
+    env["LMMS_EVAL_PLUGINS"] = "mvp_lmms_plugin"
     if args.cuda_visible_devices is not None:
         env["CUDA_VISIBLE_DEVICES"] = args.cuda_visible_devices
 
@@ -78,7 +78,7 @@ def main() -> None:
                 "-m",
                 "lmms_eval",
                 "--model",
-                "MVP_llava",
+                "mvp_llava",
                 "--model_args",
                 ",".join(model_args),
                 "--tasks",

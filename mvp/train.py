@@ -21,13 +21,13 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from qvts.MVP_Pruner import MVP_Pruner, extract_model_config
-from qvts.data import QVTSCollator, QVTSOracleDataset, load_samples_json, normalize_samples, stratified_split_samples
-from qvts.question_embedder import LlavaQuestionEmbedder
+from mvp.model import MVPPruner, extract_model_config
+from mvp.data import MVPCollator, MVPOracleDataset, load_samples_json, normalize_samples, stratified_split_samples
+from mvp.question_embedder import LlavaQuestionEmbedder
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Train MVP_Pruner with BCE and coarse/fine base-rank loss.")
+    parser = argparse.ArgumentParser(description="Train MVPPruner with BCE and coarse/fine base-rank loss.")
     parser.add_argument("--samples-json", type=str, required=True)
     parser.add_argument("--val-samples-json", type=str, default=None)
     parser.add_argument("--llava-path", type=str, default="liuhaotian/llava-v1.5-7b")
@@ -218,7 +218,7 @@ def summarize_metrics(stats: torch.Tensor) -> dict[str, float]:
 
 def run_epoch(
     *,
-    model: MVP_Pruner,
+    model: MVPPruner,
     question_embedder: LlavaQuestionEmbedder,
     loader: DataLoader,
     criterion: MVPTrainCriterion,
@@ -264,7 +264,7 @@ def run_epoch(
     return summarize_metrics(stats)
 
 
-def save_checkpoint(path: Path, *, model: MVP_Pruner, optimizer: AdamW, scheduler, epoch: int, best_metric: float, args: argparse.Namespace, metrics: dict[str, float]) -> None:
+def save_checkpoint(path: Path, *, model: MVPPruner, optimizer: AdamW, scheduler, epoch: int, best_metric: float, args: argparse.Namespace, metrics: dict[str, float]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     torch.save(
         {
@@ -301,9 +301,9 @@ def main() -> None:
         train_samples, val_samples = stratified_split_samples(samples, val_ratio=args.val_ratio, seed=args.seed)
 
     question_embedder = LlavaQuestionEmbedder(args.llava_path, device=device, dtype=args.embedder_dtype)
-    collator = QVTSCollator(pad_token_id=question_embedder.pad_token_id)
+    collator = MVPCollator(pad_token_id=question_embedder.pad_token_id)
     train_loader = DataLoader(
-        QVTSOracleDataset(train_samples),
+        MVPOracleDataset(train_samples),
         batch_size=args.batch_size,
         shuffle=True,
         num_workers=args.num_workers,
@@ -311,7 +311,7 @@ def main() -> None:
         collate_fn=collator,
     )
     val_loader = DataLoader(
-        QVTSOracleDataset(val_samples),
+        MVPOracleDataset(val_samples),
         batch_size=args.eval_batch_size,
         shuffle=False,
         num_workers=args.num_workers,
@@ -319,7 +319,7 @@ def main() -> None:
         collate_fn=collator,
     )
 
-    model = MVP_Pruner.from_config(extract_model_config(args.model_config)).to(device)
+    model = MVPPruner.from_config(extract_model_config(args.model_config)).to(device)
     pos_weight_value = estimate_soft_pos_weight(train_samples) if args.pos_weight == "auto" else None
     if args.pos_weight not in {"auto", "none"}:
         pos_weight_value = float(args.pos_weight)

@@ -1,5 +1,5 @@
 """
-extractors/GRASP.py
+extractors/grasp.py
 
 GRASP (Question-adaptive Object-centric Token Allocation) mask 计算器。
 

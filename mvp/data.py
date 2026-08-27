@@ -100,7 +100,7 @@ def stratified_split_samples(
     return train_samples, val_samples
 
 
-class QVTSOracleDataset(Dataset):
+class MVPOracleDataset(Dataset):
     def __init__(self, samples: list[dict[str, Any]], sample_weights: list[float] | None = None):
         self.samples = samples
         if sample_weights is not None and len(sample_weights) != len(samples):
@@ -150,7 +150,7 @@ class QVTSOracleDataset(Dataset):
         }
 
 
-class QVTSCollator:
+class MVPCollator:
     def __init__(self, pad_token_id: int = 0):
         self.pad_token_id = int(pad_token_id)
 

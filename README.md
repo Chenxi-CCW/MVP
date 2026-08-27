@@ -2,6 +2,8 @@
 
 Official implementation of **MVP: Multi-View-Guided Token Pruning for Vision-Language Models**, accepted at EMNLP.
 
+**[Project page](https://chenxiccw.github.io/MVP/)** · **[Paper](https://chenxiccw.github.io/MVP/assets/mvp-paper.pdf)**
+
 MVP trains a lightweight, question-conditioned pruner to score the 576 visual patch tokens produced by LLaVA-1.5. Its supervision combines three complementary views of useful visual evidence:
 
 - **Question-guided evidence** from GRASP object masks (Qwen3-VL + SAM3)

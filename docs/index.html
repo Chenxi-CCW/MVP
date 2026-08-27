@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="MVP-Token learns visual-token necessity from multiple complementary pruning perspectives for faster, accurate vision-language models."
+    />
+    <meta property="og:title" content="MVP-Token" />
+    <meta
+      property="og:description"
+      content="Multi-View-Guided Token Pruning for Vision-Language Models — accepted at EMNLP."
+    />
+    <meta property="og:image" content="assets/data_pipeline.png" />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0d2f3a" />
+    <title>MVP-Token — Multi-View-Guided Token Pruning</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-header>
+      <div class="nav-shell">
+        <a class="brand" href="#top" aria-label="MVP-Token home">
+          <span class="brand-mark" aria-hidden="true">M</span>
+          <span>MVP-Token</span>
+        </a>
+        <button class="menu-button" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span></span><span></span><span></span>
+          <span class="sr-only">Open navigation</span>
+        </button>
+        <nav id="site-nav" class="site-nav" aria-label="Primary navigation">
+          <a href="#abstract">Abstract</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#citation">Citation</a>
+          <a class="nav-code" href="https://github.com/ChenxiCCW/MVP">Code ↗</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section id="top" class="hero">
+        <div class="hero-orb hero-orb-one" aria-hidden="true"></div>
+        <div class="hero-orb hero-orb-two" aria-hidden="true"></div>
+        <div class="shell hero-grid">
+          <div class="hero-copy reveal">
+            <div class="eyebrow"><span></span> Accepted at EMNLP</div>
+            <h1>
+              One pruner.<br />
+              <em>Multiple views.</em>
+            </h1>
+            <p class="hero-title">
+              <strong>MVP:</strong> Multi-View-Guided Token Pruning for Vision-Language Models
+            </p>
+            <p class="hero-lede">
+              Learn which visual tokens matter by combining question-guided, attention-based,
+              and diversity-based evidence—then keep only the most useful tokens before they
+              reach the language model.
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="assets/mvp-paper.pdf">Read the paper <span>↗</span></a>
+              <a class="button button-secondary" href="https://github.com/ChenxiCCW/MVP">View code <span>↗</span></a>
+            </div>
+            <p class="metadata-note">Official implementation · Paper metadata will be updated with the proceedings release</p>
+          </div>
+
+          <div class="hero-visual reveal" data-delay="1">
+            <div class="token-stage" aria-label="Illustration of multi-view visual token pruning">
+              <div class="stage-label">MULTI-VIEW EVIDENCE</div>
+              <div class="view-row">
+                <span class="view-chip view-question">Question</span>
+                <span class="view-chip view-attention">Attention</span>
+                <span class="view-chip view-diversity">Diversity</span>
+              </div>
+              <div class="flow-line"><span></span></div>
+              <div class="token-grid" aria-hidden="true">
+                <i></i><i class="hot"></i><i></i><i class="warm"></i><i></i><i></i>
+                <i class="warm"></i><i></i><i class="hot"></i><i></i><i></i><i class="warm"></i>
+                <i></i><i class="hot"></i><i class="hot"></i><i></i><i class="warm"></i><i></i>
+                <i></i><i></i><i class="warm"></i><i></i><i class="hot"></i><i></i>
+              </div>
+              <div class="pruner-pill"><span>MVP-Pruner</span><small>Top-K selection</small></div>
+              <div class="retained-row" aria-hidden="true">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="stage-footer">
+                <span>576 visual tokens</span>
+                <b>→</b>
+                <span><strong>64</strong> retained</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="metric-strip" aria-label="Key results">
+        <div class="shell metrics">
+          <article><strong>96.38<sup>%</sup></strong><span>performance retained<br />with only 64 tokens</span></article>
+          <article><strong>1.33<sup>×</sup></strong><span>inference speedup<br />on Qwen2.5-VL-7B</span></article>
+          <article><strong>−24.6<sup>%</sup></strong><span>end-to-end latency<br />at 20% retention</span></article>
+          <article><strong>8</strong><span>vision-language<br />benchmarks</span></article>
+        </div>
+      </section>
+
+      <section id="abstract" class="section section-abstract">
+        <div class="shell abstract-grid">
+          <div class="section-kicker reveal"><span>01</span> Motivation</div>
+          <div class="abstract-copy reveal" data-delay="1">
+            <h2>Token necessity is<br /><em>multi-faceted.</em></h2>
+            <p class="abstract-lead">
+              Vision-language models process hundreds or thousands of visual tokens per image.
+              Existing pruning methods usually rely on a single criterion, capturing only part of
+              what makes a token necessary.
+            </p>
+            <p>
+              MVP-Token treats heterogeneous pruning outcomes as structured supervision. It first
+              builds <strong>MVP-PruneSet</strong> from complementary pruning families, turns their
+              success–failure patterns into soft token-importance labels, and trains a lightweight,
+              question-aware <strong>MVP-Pruner</strong>. The resulting scorer balances query relevance,
+              local discriminative evidence, and global spatial coverage in a single pass.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section insight-section">
+        <div class="shell">
+          <div class="insight-card reveal">
+            <div class="insight-number">+6.9</div>
+            <div>
+              <span class="unit">percentage points</span>
+              <h3>Complementary methods solve different samples.</h3>
+              <p>
+                At a 64-token budget on 12,578 GQA samples, the union of SparseVLM, VisPruner,
+                and SCOPE reaches 65.3% accuracy—well above the strongest individual method at 58.4%.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="method" class="section method-section">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <div class="section-kicker"><span>02</span> Method</div>
+            <h2>Learn from disagreement.<br /><em>Prune with confidence.</em></h2>
+          </div>
+
+          <div class="method-steps">
+            <article class="method-step reveal">
+              <span class="step-index">A</span>
+              <div class="step-icon icon-views" aria-hidden="true"><i></i><i></i><i></i></div>
+              <h3>Collect multiple views</h3>
+              <p>
+                GRASP grounds the question into object masks; VisPruner contributes attention cues;
+                SCOPE preserves diverse spatial and semantic coverage.
+              </p>
+              <div class="tags"><span>GRASP</span><span>VisPruner</span><span>SCOPE</span></div>
+            </article>
+            <article class="method-step reveal" data-delay="1">
+              <span class="step-index">B</span>
+              <div class="step-icon icon-fuse" aria-hidden="true"><i></i><i></i><i></i></div>
+              <h3>Fuse success &amp; failure</h3>
+              <p>
+                SFF-Label reliability-weights successful and failed masks, producing continuous
+                importance targets that preserve cross-view evidence.
+              </p>
+              <div class="formula">y<sub>i</sub> = P<sub>i</sub>[1 − Q<sub>i</sub>(1 − P<sub>i</sub>)]</div>
+            </article>
+            <article class="method-step reveal" data-delay="2">
+              <span class="step-index">C</span>
+              <div class="step-icon icon-rank" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <h3>Rank and retain</h3>
+              <p>
+                A compact dual-attention scorer learns both coarse and fine-grained token orderings,
+                then forwards only the top-K visual tokens to the frozen language model.
+              </p>
+              <div class="tags"><span>Frozen backbone</span><span>Top-K</span></div>
+            </article>
+          </div>
+
+          <figure class="paper-figure reveal">
+            <div class="figure-frame figure-wide">
+              <img src="assets/data_pipeline.png" alt="MVP-PruneSet construction from diversity-based, attention-based, and question-guided pruning methods" loading="lazy" />
+            </div>
+            <figcaption>
+              <span>Figure 01</span>
+              MVP-PruneSet gathers complementary evidence from three pruning families rather than
+              treating any single heuristic as ground truth.
+            </figcaption>
+          </figure>
+
+          <figure class="paper-figure architecture-figure reveal">
+            <div class="figure-frame figure-tall">
+              <img src="assets/model_architecture.png" alt="MVP-Pruner architecture and its ranking-centered training objective" loading="lazy" />
+            </div>
+            <figcaption>
+              <span>Figure 02</span>
+              During training, only MVP-Pruner is updated. At inference, it scores visual tokens once
+              and selects the top-K before the frozen LLM decoder.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="results" class="section results-section">
+        <div class="shell">
+          <div class="section-heading light reveal">
+            <div class="section-kicker"><span>03</span> Results</div>
+            <h2>Aggressive pruning.<br /><em>Minimal compromise.</em></h2>
+            <p>Evaluated across two VLM families and eight complementary benchmarks.</p>
+          </div>
+
+          <div class="result-grid">
+            <article class="result-panel reveal">
+              <div class="panel-head">
+                <div><span>Fixed resolution</span><h3>LLaVA-1.5-7B</h3></div>
+                <span class="model-badge">576 tokens</span>
+              </div>
+              <p>Normalized average performance retained across eight benchmarks.</p>
+              <div class="bar-chart" aria-label="MVP-Token normalized performance by retained token budget">
+                <div class="bar-row">
+                  <span>192 tokens</span><div class="bar-track"><i style="--score: 99.03%"></i></div><strong>99.03%</strong>
+                </div>
+                <div class="bar-row">
+                  <span>128 tokens</span><div class="bar-track"><i style="--score: 98.39%"></i></div><strong>98.39%</strong>
+                </div>
+                <div class="bar-row">
+                  <span>64 tokens</span><div class="bar-track"><i style="--score: 96.38%"></i></div><strong>96.38%</strong>
+                </div>
+              </div>
+              <p class="panel-note">64 tokens remove 89% of the original visual sequence.</p>
+            </article>
+
+            <article class="result-panel accent-panel reveal" data-delay="1">
+              <div class="panel-head">
+                <div><span>Dynamic resolution</span><h3>Qwen2.5-VL-7B</h3></div>
+                <span class="model-badge">20–30%</span>
+              </div>
+              <p>Normalized average performance against the uncompressed model.</p>
+              <div class="comparison-table" role="table" aria-label="Qwen2.5-VL normalized results">
+                <div class="table-row table-head" role="row"><span>Method</span><span>30%</span><span>20%</span></div>
+                <div class="table-row" role="row"><span>VisPruner</span><span>94.15%</span><span>88.39%</span></div>
+                <div class="table-row highlight" role="row"><span>MVP-Token</span><span>95.88%</span><span>91.74%</span></div>
+              </div>
+              <p class="panel-note">The advantage widens to +3.35 points at 20% retention.</p>
+            </article>
+          </div>
+
+          <article class="efficiency-panel reveal">
+            <div class="efficiency-copy">
+              <span class="mini-kicker">Single NVIDIA RTX PRO 6000</span>
+              <h3>Less waiting.<br />Same visual reasoning.</h3>
+              <p>
+                With roughly 174 visual tokens per sample, MVP-Token uses a lightweight learned scorer
+                and one top-K operation, avoiding iterative selection overhead.
+              </p>
+            </div>
+            <div class="efficiency-stats">
+              <div><span>Latency</span><strong>89.22<small> ms</small></strong><em>vs. 118.41 ms vanilla</em></div>
+              <div><span>Speedup</span><strong>1.33<small>×</small></strong><em>vs. 1.21× VisPruner</em></div>
+              <div><span>Avg. tokens</span><strong>173.85</strong><em>from 867.59 vanilla</em></div>
+            </div>
+          </article>
+
+          <p class="result-footnote reveal">
+            All reported values are transcribed from the supplied paper. See the paper for complete
+            benchmark definitions, baseline settings, and per-task results.
+          </p>
+        </div>
+      </section>
+
+      <section id="citation" class="section citation-section">
+        <div class="shell citation-grid">
+          <div class="section-heading reveal">
+            <div class="section-kicker"><span>04</span> Resources</div>
+            <h2>Explore MVP-Token.</h2>
+            <p>
+              The repository includes training, supervision-building, and lmms-eval integration code.
+            </p>
+            <div class="resource-links">
+              <a href="assets/mvp-paper.pdf"><span>PDF</span><b>Read the paper</b><i>↗</i></a>
+              <a href="https://github.com/ChenxiCCW/MVP"><span>GitHub</span><b>Browse the code</b><i>↗</i></a>
+            </div>
+          </div>
+          <aside class="citation-card reveal" data-delay="1">
+            <span class="citation-label">Citation</span>
+            <h3>Proceedings metadata coming soon.</h3>
+            <p>
+              The supplied manuscript is an anonymous submission version. Author names and the final
+              BibTeX entry will be added here when the official EMNLP proceedings metadata is available.
+            </p>
+            <code>MVP: Multi-View-Guided Token Pruning for Vision-Language Models</code>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-inner">
+        <a class="brand footer-brand" href="#top"><span class="brand-mark">M</span><span>MVP-Token</span></a>
+        <p>Multi-view supervision for efficient vision-language models.</p>
+        <p>Code released under Apache-2.0.</p>
+      </div>
+    </footer>
+  </body>
+</html>

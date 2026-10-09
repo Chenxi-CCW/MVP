@@ -140,13 +140,6 @@ The runner evaluates top-k settings of 32, 64, and 128 retained visual tokens. A
 
 A file-by-file explanation is available in [docs/PROJECT_STRUCTURE.md](docs/PROJECT_STRUCTURE.md).
 
-## Reproducibility notes
-
-- Training defaults to seed `42` and stores the complete configuration in `outputs/mvp_pruner/config.json`.
-- Checkpoints include model configuration, optimizer state, scheduler state, epoch, and validation metrics.
-- Large generated artifacts (`*.pt`, `*.npy`, datasets, checkpoints, and evaluation outputs) are excluded from Git by default.
-- External repositories evolve independently; record their commit hashes alongside experiment results.
-
 ## Citation
 
 If you use this work, please cite the MVP paper. This entry will be updated with the official ACL Anthology metadata after the proceedings are released.

@@ -24,7 +24,9 @@ Success/failure-aware fusion turns these candidate masks into soft supervision. 
 
 ![MVP supervision pipeline](assets/data_pipeline.png?raw=1)
 
-![MVP model architecture](assets/model_architecture.png?raw=1)
+<p align="center">
+  <img src="assets/model_architecture.png?raw=1" alt="MVP model architecture" width="60%">
+</p>
 
 ## Repository status
 

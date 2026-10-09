@@ -1,8 +1,18 @@
-# MVP
+<div align="center">
 
-Official implementation of **MVP: Multi-View-Guided Token Pruning for Vision-Language Models**, accepted at EMNLP.
+# MVP: Multi-View-Guided Token Pruning for Vision-Language Models
 
-**[Project page](https://chenxiccw.github.io/MVP/)** · **[Paper](https://chenxiccw.github.io/MVP/assets/mvp-paper.pdf)**
+**EMNLP 2026 Main Conference**
+
+Chenxi Wang · Dexing Zhong · Siyu Shi · Bowen Ping · Hang Yan · Huayang Li · Huikai Shao
+
+[![Conference](https://img.shields.io/badge/EMNLP_2026-Main_Conference-235aa6?style=flat-square)](#)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab?style=flat-square)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-Apache--2.0-555?style=flat-square)](LICENSE)
+
+Official implementation of **MVP**, a multi-view framework for efficient visual-token pruning in vision-language models.
+
+</div>
 
 MVP trains a lightweight, question-conditioned pruner to score the 576 visual patch tokens produced by LLaVA-1.5. Its supervision combines three complementary views of useful visual evidence:
 
@@ -27,7 +37,7 @@ The current implementation targets single-image LLaVA-1.5 inputs with a `24 x 24
 Python 3.10 or newer is recommended.
 
 ```bash
-git clone https://github.com/ChenxiCCW/MVP.git
+git clone https://github.com/Chenxi-CCW/MVP.git
 cd MVP
 
 python -m venv .venv
@@ -137,7 +147,16 @@ A file-by-file explanation is available in [docs/PROJECT_STRUCTURE.md](docs/PROJ
 
 ## Citation
 
-If you use this work, please cite the MVP paper. The final BibTeX entry will be added when the EMNLP proceedings metadata is available.
+If you use this work, please cite the MVP paper. This entry will be updated with the official ACL Anthology metadata after the proceedings are released.
+
+```bibtex
+@inproceedings{wang2026mvp,
+  title     = {MVP: Multi-View-Guided Token Pruning for Vision-Language Models},
+  author    = {Wang, Chenxi and Zhong, Dexing and Shi, Siyu and Ping, Bowen and Yan, Hang and Li, Huayang and Shao, Huikai},
+  booktitle = {Proceedings of the 2026 Conference on Empirical Methods in Natural Language Processing},
+  year      = {2026}
+}
+```
 
 ## License
 
